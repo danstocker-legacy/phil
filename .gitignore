@@ -2,3 +2,4 @@
 /.idea/
 /targets.sh
 /out/
+/build*.sh
