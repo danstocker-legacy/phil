@@ -1,7 +1,8 @@
 /**
  * JavaScript 1.5 (ES3) compatibility tests.
  */
-/*global troop, module, test, expect, ok, equal, notEqual, deepEqual, raises */
+/*global troop, module, test, expect, ok, equal, notEqual, strictEqual, deepEqual, raises */
+/*global phil */
 (function (polyfill) {
     module("Polyfill");
 
@@ -98,8 +99,10 @@
         var base = {},
             child1 = polyfill.create(base, {test: {value: 'tset'}});
 
-        equal(child1.constructor.prototype, base, "Immediate prototype");
+        strictEqual(child1.__proto__, base, "Immediate prototype");
         equal(child1.test, 'tset', "Applied property");
+
+        strictEqual(polyfill.getPrototypeOf(child1), base, "Prototype using polyfill");
     });
 
     test("Function binding", function () {

@@ -4,7 +4,7 @@
 (function () {
     var self = this.phil.polyfill = {
         getPrototypeOf: function (obj) {
-            return obj.constructor.prototype;
+            return obj.__proto__;
         },
 
         getOwnPropertyNames: function (obj) {
@@ -86,7 +86,6 @@
                 }
             }
 
-            o.constructor = F;
             return o;
         },
 
