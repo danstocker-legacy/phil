@@ -12,6 +12,7 @@
         var tmp = {foo: 'bar', hello: "world"};
 
         deepEqual(polyfill.getOwnPropertyNames(tmp).sort(), ['foo', 'hello'], "Own property names");
+        deepEqual(polyfill.getOwnPropertyNames(Array.prototype), [], "Own property names of purely non-enumerable object");
 
         deepEqual(
             polyfill.getOwnPropertyDescriptor(tmp, 'foo'),
