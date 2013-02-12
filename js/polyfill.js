@@ -1,8 +1,9 @@
 /**
  * ECMAScript 3 (JavaScript 1.5) compatibility layer.
  */
+/*global phil */
 (function () {
-    var self = this.phil.polyfill = {
+    var self = phil.polyfill = {
         getPrototypeOf: function (obj) {
             return obj.__proto__;
         },
