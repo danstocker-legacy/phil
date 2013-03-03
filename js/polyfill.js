@@ -70,8 +70,8 @@
         },
 
         /**
-         * @param proto {object}
-         * @param [props] {object}
+         * @param {object} proto
+         * @param {object} [props]
          */
         create: function (proto, props) {
             function F() {}
@@ -94,7 +94,7 @@
          * Function.prototype.bind
          * It's a very crude approximation as compared to:
          * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind
-         * @param that {Object} Externally supplied context
+         * @param {Object} that Externally supplied context
          * @return {function} Function with the supplied context tied to it.
          */
         functionBind: function (that) {
