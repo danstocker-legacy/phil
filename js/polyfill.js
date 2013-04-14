@@ -3,7 +3,10 @@
  */
 /*global phil */
 (function () {
-    var self = phil.polyfill = {
+    var hOP = Object.prototype.hasOwnProperty,
+        self;
+
+    self = phil.polyfill = {
         getPrototypeOf: function (obj) {
             return obj.__proto__;
         },
@@ -12,7 +15,7 @@
             var result = [],
                 key;
             for (key in obj) {
-                if (obj.hasOwnProperty(key)) {
+                if (hOP.call(obj, key)) {
                     result.push(key);
                 }
             }
@@ -20,7 +23,7 @@
         },
 
         getOwnPropertyDescriptor: function (obj, prop) {
-            if (!obj.hasOwnProperty(prop)) {
+            if (!hOP.call(obj, prop)) {
                 return undefined;
             }
 
@@ -53,7 +56,7 @@
             // cleaning up
             delete obj[prop];
 
-            if (desc.hasOwnProperty('value')) {
+            if (hOP.call(desc, 'value')) {
                 // value assignment
                 obj[prop] = desc.value;
             } else {
@@ -82,7 +85,7 @@
                 key;
 
             for (key in props) {
-                if (props.hasOwnProperty(key)) {
+                if (hOP.call(props, key)) {
                     self.defineProperty(o, key, props[key]);
                 }
             }
