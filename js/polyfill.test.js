@@ -3,24 +3,31 @@
  */
 /*global troop, module, test, expect, ok, equal, notEqual, strictEqual, deepEqual, raises */
 /*global phil */
-(function (polyfill) {
+(function () {
+    var polyfill = phil.polyfill;
+
     module("Polyfill");
 
     test("Basic", function () {
-        equal(polyfill.getPrototypeOf([]), Array.prototype, "Array prototype");
+        if (polyfill.hasProto()) {
+            equal(polyfill.getProto([]), Array.prototype, "Array prototype");
+        } else {
+            equal(polyfill.getConstructorPrototype([]), Array.prototype, "Array prototype");
+        }
 
         var tmp = {foo: 'bar', hello: "world"};
 
         deepEqual(polyfill.getOwnPropertyNames(tmp).sort(), ['foo', 'hello'], "Own property names");
-        deepEqual(polyfill.getOwnPropertyNames(Array.prototype), [], "Own property names of purely non-enumerable object");
+        deepEqual(polyfill.getOwnPropertyNames(Array.prototype), [
+        ], "Own property names of purely non-enumerable object");
 
         deepEqual(
             polyfill.getOwnPropertyDescriptor(tmp, 'foo'),
             {
-                writable: true,
-                enumerable: true,
+                writable    : true,
+                enumerable  : true,
                 configurable: true,
-                value: 'bar'
+                value       : 'bar'
             },
             "String property descriptor"
         );
@@ -35,35 +42,37 @@
         equal(result, o, "Returns host object");
         equal(o.p1, 5, "Value assignment");
 
-        polyfill.defineProperty(o, 'p2', {get: function () {return tmp + 'foo';}});
+        polyfill.defineProperty(o, 'p2', {get: function () {return (tmp || '') + 'foo';}});
         tmp = '';
         equal(o.p2, 'foo', "Getter 1");
 
-        tmp = 'a';
-        equal(o.p2, 'afoo', "Getter 2");
+        if (polyfill.hasGetterSetter()) {
+            tmp = 'a';
+            equal(o.p2, 'afoo', "Getter 2");
 
-        polyfill.defineProperty(o, 'p3', {get: function () {return tmp;}, set: function (x) {tmp = x * 2;}});
-        o.p3 = 3;
+            polyfill.defineProperty(o, 'p3', {get: function () {return tmp;}, set: function (x) {tmp = x * 2;}});
+            o.p3 = 3;
 
-        equal(o.p3, 6, "Setter");
+            equal(o.p3, 6, "Setter");
 
-        polyfill.defineProperty(o, 'p4', {value: 'hello'});
-        equal(o.p4, 'hello', "Property starts out as value");
-        equal(typeof o.__lookupGetter__('p4'), 'undefined', "Value property has no getter");
+            polyfill.defineProperty(o, 'p4', {value: 'hello'});
+            equal(o.p4, 'hello', "Property starts out as value");
+            equal(typeof o.__lookupGetter__('p4'), 'undefined', "Value property has no getter");
 
-        tmp = 'boo';
-        polyfill.defineProperty(o, 'p4', {
-            get: function () { return tmp;},
-            set: function (x) { tmp = x;}
-        });
-        equal(typeof o.__lookupGetter__('p4'), 'function', "Property getter");
-        equal(typeof o.__lookupSetter__('p4'), 'function', "Property setter");
-        equal(o.p4, 'boo', "Property value provided by getter");
+            tmp = 'boo';
+            polyfill.defineProperty(o, 'p4', {
+                get: function () { return tmp;},
+                set: function (x) { tmp = x;}
+            });
+            equal(typeof o.__lookupGetter__('p4'), 'function', "Property getter");
+            equal(typeof o.__lookupSetter__('p4'), 'function', "Property setter");
+            equal(o.p4, 'boo', "Property value provided by getter");
 
-        polyfill.defineProperty(o, 'p4', {get: function () { return 'world';}});
-        equal(typeof o.__lookupGetter__('p4'), 'function', "Property getter");
-        equal(typeof o.__lookupSetter__('p4'), 'undefined', "No setter defined");
-        equal(o.p4, 'world', "Property value provided by getter");
+            polyfill.defineProperty(o, 'p4', {get: function () { return 'world';}});
+            equal(typeof o.__lookupGetter__('p4'), 'function', "Property getter");
+            equal(typeof o.__lookupSetter__('p4'), 'undefined', "No setter defined");
+            equal(o.p4, 'world', "Property value provided by getter");
+        }
     });
 
     test(".getOwnPropertyDescriptor", function () {
@@ -73,43 +82,47 @@
         deepEqual(
             polyfill.getOwnPropertyDescriptor(o, 'p1'),
             {
-                writable: true,
-                enumerable: true,
+                writable    : true,
+                enumerable  : true,
                 configurable: true,
-                value: 'foo'
+                value       : 'foo'
             },
             "Value-property descriptor OK"
         );
 
         function getter() {return 'foo';}
 
-        o.__defineGetter__('p2', getter);
-        deepEqual(
-            polyfill.getOwnPropertyDescriptor(o, 'p2'),
-            {
-                writable: true,
-                enumerable: true,
-                configurable: true,
-                get: getter
-            },
-            "Getter-property descriptor OK"
-        );
+        if (polyfill.hasGetterSetter()) {
+            o.__defineGetter__('p2', getter);
+            deepEqual(
+                polyfill.getOwnPropertyDescriptor(o, 'p2'),
+                {
+                    writable    : true,
+                    enumerable  : true,
+                    configurable: true,
+                    get         : getter
+                },
+                "Getter-property descriptor OK"
+            );
+        }
     });
 
     test(".create", function () {
         var base = {},
             child1 = polyfill.create(base, {test: {value: 'tset'}});
 
-        strictEqual(child1.__proto__, base, "Immediate prototype");
+        if (polyfill.hasProto()) {
+            strictEqual(polyfill.getProto(child1), base, "Immediate prototype");
+        } else {
+            strictEqual(polyfill.getConstructorPrototype(child1), base, "Immediate prototype");
+        }
         equal(child1.test, 'tset', "Applied property");
-
-        strictEqual(polyfill.getPrototypeOf(child1), base, "Prototype using polyfill");
     });
 
     test("Function binding", function () {
         expect(6);
 
-        function test (arg1, arg2) {
+        function test(arg1, arg2) {
             equal(arg1, 'hello', "Argument 1 ok");
             equal(arg2, 'world', "Argument 2 ok");
             return this.foo;
@@ -123,6 +136,4 @@
 
         equal(bound('world'), "bar", "Function bound to context");
     });
-}(
-    phil.polyfill
-));
+}());

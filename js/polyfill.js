@@ -7,8 +7,36 @@
         self;
 
     self = phil.polyfill = {
-        getPrototypeOf: function (obj) {
+        /**
+         * Determines whether direct access to prototype object is implemented
+         * @return {Boolean}
+         */
+        hasProto: function () {
+            return typeof Object.__proto__ !== 'undefined';
+        },
+
+        /**
+         * Determines whether getters are implemented
+         * @return {Boolean}
+         */
+        hasGetterSetter: function () {
+            return typeof Object.__defineGetter__ !== 'undefined';
+        },
+
+        /**
+         * Determines whether lookups are implemented
+         * @return {Boolean}
+         */
+        hasLookupGetterSetter: function () {
+            return typeof Object.__lookupGetter__ !== 'undefined';
+        },
+
+        getProto: function (obj) {
             return obj.__proto__;
+        },
+
+        getConstructorPrototype: function (obj) {
+            return obj.constructor.prototype;
         },
 
         getOwnPropertyNames: function (obj) {
@@ -29,12 +57,17 @@
 
             // basic properties
             var result = {
-                    writable: true,
-                    enumerable: true,
+                    writable    : true,
+                    enumerable  : true,
                     configurable: true
                 },
-                getter = obj.__lookupGetter__(prop),
+                getter,
+                setter;
+
+            if (self.hasLookupGetterSetter()) {
+                getter = obj.__lookupGetter__(prop);
                 setter = obj.__lookupSetter__(prop);
+            }
 
             if (getter || setter) {
                 // applying accessors when property is getter/setter
@@ -59,7 +92,7 @@
             if (hOP.call(desc, 'value')) {
                 // value assignment
                 obj[prop] = desc.value;
-            } else {
+            } else if (self.hasGetterSetter()) {
                 // getter/setter
                 if (typeof desc.get === 'function') {
                     obj.__defineGetter__(prop, desc.get);
@@ -67,6 +100,9 @@
                 if (typeof desc.set === 'function') {
                     obj.__defineSetter__(prop, desc.set);
                 }
+            } else if (typeof desc.get === 'function') {
+                // assigning getter result as value
+                obj[prop] = desc.get();
             }
 
             return obj;
@@ -83,6 +119,8 @@
 
             var o = new F(),
                 key;
+
+            o.constructor = F;
 
             for (key in props) {
                 if (hOP.call(props, key)) {
@@ -112,7 +150,9 @@
     };
 
     if (typeof Object.getPrototypeOf !== 'function') {
-        Object.getPrototypeOf = self.getPrototypeOf;
+        Object.getPrototypeOf = self.hasProto() ?
+            self.getProto :
+            self.getConstructorPrototype;
     }
 
     if (typeof Object.getOwnPropertyNames !== 'function') {
