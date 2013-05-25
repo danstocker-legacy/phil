@@ -160,6 +160,21 @@
             } else {
                 return substr.call(this, start, length);
             }
+        },
+
+        /**
+         *
+         * @param {*} elem
+         * @return {Number}
+         */
+        arrayIndexOf: function (elem) {
+            var i;
+            for (i = 0; i < this.length; i++) {
+                if (this[i] === elem) {
+                    return i;
+                }
+            }
+            return -1;
         }
     };
 
@@ -199,5 +214,9 @@
 
     if (!phil.hasNegativeSubstr()) {
         String.prototype.substr = self.substr;
+    }
+
+    if (typeof Array.prototype.indexOf !== 'function') {
+        Array.prototype.indexOf = self.arrayIndexOf;
     }
 }());

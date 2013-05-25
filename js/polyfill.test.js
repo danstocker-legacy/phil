@@ -22,9 +22,6 @@
         ok(polyfill.isPrototypeOf.call(Object.prototype, tmp), "Object.prototype is prototype of object");
 
         deepEqual(polyfill.getOwnPropertyNames(tmp).sort(), ['foo', 'hello', 'toString'], "Own property names");
-        deepEqual(polyfill.getOwnPropertyNames(Array.prototype), [
-            'toString'
-        ], "Own property names of purely non-enumerable object");
 
         deepEqual(
             polyfill.getOwnPropertyDescriptor(tmp, 'foo'),
@@ -146,5 +143,10 @@
         equal(polyfill.substr.call("hello", 1, 2), "el", "Non-negative start index");
         equal(polyfill.substr.call("hello", -2), "lo", "Negative start index");
         equal(polyfill.substr.call("hello", -2, 1), "l", "Negative start index with length");
+    });
+
+    test("Array index by element", function () {
+        equal(polyfill.arrayIndexOf.call(['foo', 'bar', 3], 'bar'), 1, "Hit");
+        equal(polyfill.arrayIndexOf.call(['foo', 'bar', 3], 'baz'), -1, "No hit");
     });
 }());
