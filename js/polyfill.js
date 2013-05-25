@@ -120,7 +120,9 @@
             var o = new F(),
                 key;
 
-            o.constructor = F;
+            if (!self.hasProto()) {
+                o.constructor = F;
+            }
 
             for (key in props) {
                 if (hOP.call(props, key)) {
