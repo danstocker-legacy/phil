@@ -17,6 +17,10 @@
 
         var tmp = {foo: 'bar', hello: "world"};
 
+        ok(!polyfill.isPrototypeOf.call(tmp, Object.prototype), "Object is not prototype of Object.prototype");
+        ok(!polyfill.isPrototypeOf.call(tmp, tmp), "Object is not prototype of itself");
+        ok(polyfill.isPrototypeOf.call(Object.prototype, tmp), "Object.prototype is prototype of object");
+
         deepEqual(polyfill.getOwnPropertyNames(tmp).sort(), ['foo', 'hello'], "Own property names");
         deepEqual(polyfill.getOwnPropertyNames(Array.prototype), [
         ], "Own property names of purely non-enumerable object");

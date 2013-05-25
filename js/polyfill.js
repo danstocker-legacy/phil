@@ -4,6 +4,7 @@
 /*global phil */
 (function () {
     var hOP = Object.prototype.hasOwnProperty,
+        isPrototypeOf = Object.prototype.isPrototypeOf,
         self;
 
     self = phil.polyfill = {
@@ -48,6 +49,20 @@
             }
 
             return true;
+        },
+
+        hasCircularPrototypes: function () {
+            var a = {};
+            return a.isPrototypeOf(a);
+        },
+
+        isPrototypeOf: function (obj) {
+            if (this === obj) {
+                return false;
+            } else {
+                // calling original isPrototypeOf
+                return isPrototypeOf.call(this, obj);
+            }
         },
 
         getProto: function (obj) {
@@ -169,6 +184,10 @@
             };
         }
     };
+
+    if (self.hasCircularPrototypes()) {
+        Object.prototype.isPrototypeOf = self.isPrototypeOf;
+    }
 
     if (typeof Object.getPrototypeOf !== 'function') {
         Object.getPrototypeOf = self.hasProto() ?
