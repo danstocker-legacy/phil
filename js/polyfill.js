@@ -4,6 +4,7 @@
 /*global phil */
 (function () {
     var hOP = Object.prototype.hasOwnProperty,
+        iPE = Object.prototype.propertyIsEnumerable,
         isPrototypeOf = Object.prototype.isPrototypeOf,
         self;
 
@@ -28,11 +29,19 @@
         getOwnPropertyNames: function (obj) {
             var result = [],
                 key;
+
+            // enumerable properties
             for (key in obj) {
                 if (hOP.call(obj, key)) {
                     result.push(key);
                 }
             }
+
+            // non-enumerables that should be enumerable
+            if (hOP.call(obj, 'toString') && !iPE.call(obj, 'toString')) {
+                result.push('toString');
+            }
+
             return result;
         },
 
