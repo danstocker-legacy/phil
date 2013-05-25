@@ -31,6 +31,25 @@
             return typeof Object.__lookupGetter__ !== 'undefined';
         },
 
+        /**
+         * Determines whether environment implements a standard-
+         * compliant `defineProperty()` method.
+         * @return {Boolean}
+         */
+        hasDefineProperty: function () {
+            if (typeof Object.defineProperty !== 'function') {
+                return false;
+            }
+
+            try {
+                Object.defineProperty({}, 'x', {});
+            } catch (err) {
+                return false;
+            }
+
+            return true;
+        },
+
         getProto: function (obj) {
             return obj.__proto__;
         },
@@ -169,7 +188,7 @@
         Object.getOwnPropertyDescriptor = self.getOwnPropertyDescriptor;
     }
 
-    if (typeof Object.defineProperty !== 'function') {
+    if (!self.hasDefineProperty()) {
         Object.defineProperty = self.defineProperty;
     }
 
