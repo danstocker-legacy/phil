@@ -42,6 +42,29 @@ phil.hasDefineProperty = function () {
     return true;
 };
 
+/**
+ * Determines whether environment implements standard-compliant
+ * `getOwnPropertyDescriptor()` method
+ * @return {Boolean}
+ */
+phil.hasGetOwnPropertyDescriptor = function () {
+    if (typeof Object.getOwnPropertyDescriptor !== 'function') {
+        return false;
+    }
+
+    try {
+        Object.getOwnPropertyDescriptor({}, 'x');
+    } catch (err) {
+        return false;
+    }
+
+    return true;
+};
+
+/**
+ * Tells whether .isPrototypeOf() succeeds on self.
+ * @return {boolean}
+ */
 phil.hasCircularPrototypes = function () {
     var a = {};
     return a.isPrototypeOf(a);

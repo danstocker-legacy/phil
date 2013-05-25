@@ -155,7 +155,7 @@
         Object.keys = self.getOwnPropertyNames;
     }
 
-    if (typeof Object.getOwnPropertyDescriptor !== 'function') {
+    if (!phil.hasGetOwnPropertyDescriptor()) {
         Object.getOwnPropertyDescriptor = self.getOwnPropertyDescriptor;
     }
 
