@@ -8,54 +8,6 @@
         self;
 
     self = phil.polyfill = {
-        /**
-         * Determines whether direct access to prototype object is implemented
-         * @return {Boolean}
-         */
-        hasProto: function () {
-            return typeof Object.__proto__ !== 'undefined';
-        },
-
-        /**
-         * Determines whether getters are implemented
-         * @return {Boolean}
-         */
-        hasGetterSetter: function () {
-            return typeof Object.__defineGetter__ !== 'undefined';
-        },
-
-        /**
-         * Determines whether lookups are implemented
-         * @return {Boolean}
-         */
-        hasLookupGetterSetter: function () {
-            return typeof Object.__lookupGetter__ !== 'undefined';
-        },
-
-        /**
-         * Determines whether environment implements a standard-
-         * compliant `defineProperty()` method.
-         * @return {Boolean}
-         */
-        hasDefineProperty: function () {
-            if (typeof Object.defineProperty !== 'function') {
-                return false;
-            }
-
-            try {
-                Object.defineProperty({}, 'x', {});
-            } catch (err) {
-                return false;
-            }
-
-            return true;
-        },
-
-        hasCircularPrototypes: function () {
-            var a = {};
-            return a.isPrototypeOf(a);
-        },
-
         isPrototypeOf: function (obj) {
             if (this === obj) {
                 return false;
@@ -98,7 +50,7 @@
                 getter,
                 setter;
 
-            if (self.hasLookupGetterSetter()) {
+            if (phil.hasLookupGetterSetter()) {
                 getter = obj.__lookupGetter__(prop);
                 setter = obj.__lookupSetter__(prop);
             }
@@ -126,7 +78,7 @@
             if (hOP.call(desc, 'value')) {
                 // value assignment
                 obj[prop] = desc.value;
-            } else if (self.hasGetterSetter()) {
+            } else if (phil.hasGetterSetter()) {
                 // getter/setter
                 if (typeof desc.get === 'function') {
                     obj.__defineGetter__(prop, desc.get);
@@ -154,7 +106,7 @@
             var o = new F(),
                 key;
 
-            if (!self.hasProto()) {
+            if (!phil.hasProto()) {
                 o.constructor = F;
             }
 
@@ -185,12 +137,12 @@
         }
     };
 
-    if (self.hasCircularPrototypes()) {
+    if (phil.hasCircularPrototypes()) {
         Object.prototype.isPrototypeOf = self.isPrototypeOf;
     }
 
     if (typeof Object.getPrototypeOf !== 'function') {
-        Object.getPrototypeOf = self.hasProto() ?
+        Object.getPrototypeOf = phil.hasProto() ?
             self.getProto :
             self.getConstructorPrototype;
     }
@@ -207,7 +159,7 @@
         Object.getOwnPropertyDescriptor = self.getOwnPropertyDescriptor;
     }
 
-    if (!self.hasDefineProperty()) {
+    if (!phil.hasDefineProperty()) {
         Object.defineProperty = self.defineProperty;
     }
 

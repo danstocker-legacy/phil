@@ -7,5 +7,6 @@ LIB="phil"
 
 FILES="
 js/namespace.js
+js/features.js
 js/polyfill.js
 "

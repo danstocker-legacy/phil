@@ -9,7 +9,7 @@
     module("Polyfill");
 
     test("Basic", function () {
-        if (polyfill.hasProto()) {
+        if (phil.hasProto()) {
             equal(polyfill.getProto([]), Array.prototype, "Array prototype");
         } else {
             equal(polyfill.getConstructorPrototype([]), Array.prototype, "Array prototype");
@@ -50,7 +50,7 @@
         tmp = '';
         equal(o.p2, 'foo', "Getter 1");
 
-        if (polyfill.hasGetterSetter()) {
+        if (phil.hasGetterSetter()) {
             tmp = 'a';
             equal(o.p2, 'afoo', "Getter 2");
 
@@ -96,7 +96,7 @@
 
         function getter() {return 'foo';}
 
-        if (polyfill.hasGetterSetter()) {
+        if (phil.hasGetterSetter()) {
             o.__defineGetter__('p2', getter);
             deepEqual(
                 polyfill.getOwnPropertyDescriptor(o, 'p2'),
@@ -115,7 +115,7 @@
         var base = {},
             child1 = polyfill.create(base, {test: {value: 'tset'}});
 
-        if (polyfill.hasProto()) {
+        if (phil.hasProto()) {
             strictEqual(polyfill.getProto(child1), base, "Immediate prototype");
         } else {
             strictEqual(polyfill.getConstructorPrototype(child1), base, "Immediate prototype");
