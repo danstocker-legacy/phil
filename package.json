@@ -1,0 +1,13 @@
+{
+    "name"        : "phil",
+    "version"     : "0.1.3",
+    "description" : "ES3 polyfill",
+    "keywords"    : ["polyfill", "shim", "compatibility", "built-ins"],
+    "author"      : "Dan Stocker <dan@kwaia.com>",
+    "repository"  : {
+        "type": "git",
+        "url" : "git@github.com:danstocker/phil.git"
+    },
+    "files"       : ["out/phil.js"],
+    "main"        : "out/phil.js"
+}
