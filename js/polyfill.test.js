@@ -141,4 +141,10 @@
 
         equal(bound('world'), "bar", "Function bound to context");
     });
+
+    test("Substring extraction", function () {
+        equal(polyfill.substr.call("hello", 1, 2), "el", "Non-negative start index");
+        equal(polyfill.substr.call("hello", -2), "lo", "Negative start index");
+        equal(polyfill.substr.call("hello", -2, 1), "l", "Negative start index with length");
+    });
 }());

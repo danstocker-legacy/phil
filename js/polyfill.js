@@ -6,6 +6,7 @@
     var hOP = Object.prototype.hasOwnProperty,
         iPE = Object.prototype.propertyIsEnumerable,
         isPrototypeOf = Object.prototype.isPrototypeOf,
+        substr = String.prototype.substr,
         self;
 
     self = phil.polyfill = {
@@ -143,6 +144,22 @@
             return function () {
                 return fn.apply(that, args.concat(slice.call(arguments)));
             };
+        },
+
+        /**
+         *
+         * @param {number} start
+         * @param {number} length
+         * @return {string}
+         */
+        substr: function (start, length) {
+            var strLen;
+            if (start < 0) {
+                strLen = this.length;
+                return substr.call(this, strLen + start, length || (0 - start));
+            } else {
+                return substr.call(this, start, length);
+            }
         }
     };
 
@@ -178,5 +195,9 @@
 
     if (typeof Function.prototype.bind !== 'function') {
         Function.prototype.bind = self.functionBind;
+    }
+
+    if (!phil.hasNegativeSubstr()) {
+        String.prototype.substr = self.substr;
     }
 }());

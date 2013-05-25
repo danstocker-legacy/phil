@@ -62,10 +62,18 @@ phil.hasGetOwnPropertyDescriptor = function () {
 };
 
 /**
- * Tells whether .isPrototypeOf() succeeds on self.
+ * Tests whether .isPrototypeOf() succeeds on self.
  * @return {boolean}
  */
 phil.hasCircularPrototypes = function () {
     var a = {};
     return a.isPrototypeOf(a);
+};
+
+/**
+ * Tests whether String.substr() can handle negative indexes.
+ * @return {Boolean}
+ */
+phil.hasNegativeSubstr = function () {
+    return "hello".substr(-1) === "o";
 };
