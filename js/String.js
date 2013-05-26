@@ -26,7 +26,7 @@
         }
     };
 
-    if (!phil.hasNegativeSubstr()) {
+    if (!phil.canSubstrTakeNegativeIndex()) {
         String.prototype.substr = phil.String.substr;
     }
 }());

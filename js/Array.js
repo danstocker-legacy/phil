@@ -42,7 +42,7 @@
         Array.prototype.indexOf = phil.Array.arrayIndexOf;
     }
 
-    if (!phil.canArraySortTakeUndefined()) {
+    if (!phil.canSortTakeUndefinedHandler()) {
         Array.prototype.sort = phil.Array.arraySort;
     }
 }());

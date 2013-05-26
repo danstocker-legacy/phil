@@ -1,7 +1,5 @@
 /*global phil */
 (function () {
-    var sort = Array.prototype.sort;
-
     /**
      * Determines whether direct access to prototype object is implemented
      * @return {Boolean}
@@ -77,7 +75,7 @@
      * Tests whether String.substr() can handle negative indexes.
      * @return {Boolean}
      */
-    phil.hasNegativeSubstr = function () {
+    phil.canSubstrTakeNegativeIndex = function () {
         return "hello".substr(-1) === "o";
     };
 
@@ -85,7 +83,7 @@
      * Tests whether Array.sort() can take undefined as argument
      * @return {Boolean}
      */
-    phil.canArraySortTakeUndefined = function () {
+    phil.canSortTakeUndefinedHandler = function () {
         try {
             [1].sort(undefined);
         } catch (err) {
