@@ -1,7 +1,7 @@
 {
     "name"        : "phil",
     "version"     : "0.2.0",
-    "description" : "ES3 polyfill",
+    "description" : "ES5 polyfill",
     "keywords"    : ["polyfill", "shim", "compatibility", "built-ins"],
     "author"      : "Dan Stocker <dan@kwaia.com>",
     "repository"  : {
