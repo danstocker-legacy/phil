@@ -10,11 +10,10 @@
      */
     phil.Array = {
         /**
-         *
          * @param {*} elem
          * @return {Number}
          */
-        arrayIndexOf: function (elem) {
+        indexOf: function (elem) {
             var i;
             for (i = 0; i < this.length; i++) {
                 if (this[i] === elem) {
@@ -25,11 +24,10 @@
         },
 
         /**
-         *
          * @param {function} comparator
          * @return {Array}
          */
-        arraySort: function (comparator) {
+        sort: function (comparator) {
             if (typeof comparator !== 'undefined') {
                 return sort.call(this, comparator);
             } else {
@@ -39,10 +37,10 @@
     };
 
     if (typeof Array.prototype.indexOf !== 'function') {
-        Array.prototype.indexOf = phil.Array.arrayIndexOf;
+        Array.prototype.indexOf = phil.Array.indexOf;
     }
 
     if (!phil.canSortTakeUndefinedHandler()) {
-        Array.prototype.sort = phil.Array.arraySort;
+        Array.prototype.sort = phil.Array.sort;
     }
 }());
