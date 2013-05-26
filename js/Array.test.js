@@ -4,7 +4,7 @@
 /*global troop, module, test, expect, ok, equal, notEqual, strictEqual, deepEqual, raises */
 /*global phil */
 (function () {
-    module("Polyfill");
+    module("Array");
 
     test("Array index by element", function () {
         equal(phil.Array.arrayIndexOf.call(['foo', 'bar', 3], 'bar'), 1, "Hit");

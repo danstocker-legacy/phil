@@ -10,5 +10,6 @@ js/namespace.js
 js/features.js
 js/Object.js
 js/Array.js
+js/Function.js
 js/polyfill.js
 "
