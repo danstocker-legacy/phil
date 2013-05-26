@@ -8,5 +8,7 @@ LIB="phil"
 FILES="
 js/namespace.js
 js/features.js
+js/Object.js
+js/Array.js
 js/polyfill.js
 "

@@ -31,9 +31,4 @@
         equal(polyfill.substr.call("hello", -2), "lo", "Negative start index");
         equal(polyfill.substr.call("hello", -2, 1), "l", "Negative start index with length");
     });
-
-    test("Array index by element", function () {
-        equal(polyfill.arrayIndexOf.call(['foo', 'bar', 3], 'bar'), 1, "Hit");
-        equal(polyfill.arrayIndexOf.call(['foo', 'bar', 3], 'baz'), -1, "No hit");
-    });
 }());
