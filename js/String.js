@@ -10,7 +10,6 @@
      */
     phil.String = {
         /**
-         *
          * @param {number} start
          * @param {number} length
          * @return {string}
