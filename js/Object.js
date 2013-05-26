@@ -5,7 +5,20 @@
 (function () {
     var hOP = Object.prototype.hasOwnProperty,
         iPE = Object.prototype.propertyIsEnumerable,
-        isPrototypeOf = Object.prototype.isPrototypeOf;
+        isPrototypeOf = Object.prototype.isPrototypeOf,
+        standardPropertyNames = ["anchor", "apply", "big", "bind", "blink", "bold", "call", "charAt", "charCodeAt",
+            "compile", "concat", "every", "exec", "filter", "fixed", "fontcolor", "fontsize", "forEach", "getDate",
+            "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds", "getTime",
+            "getTimezoneOffset", "getUTCDate", "getUTCDay", "getUTCFullYear", "getUTCHours", "getUTCMilliseconds",
+            "getUTCMinutes", "getUTCMonth", "getUTCSeconds", "getYear", "indexOf", "italics", "join", "lastIndexOf",
+            "link", "localeCompare", "map", "match", "pop", "push", "reduce", "reduceRight", "replace", "reverse",
+            "search", "setDate", "setFullYear", "setHours", "setMilliseconds", "setMinutes", "setMonth", "setSeconds",
+            "setTime", "setUTCDate", "setUTCFullYear", "setUTCHours", "setUTCMilliseconds", "setUTCMinutes",
+            "setUTCMonth", "setUTCSeconds", "setYear", "shift", "slice", "small", "some", "sort", "splice", "split",
+            "strike", "sub", "substr", "substring", "sup", "test", "toDateString", "toExponential", "toFixed",
+            "toGMTString", "toISOString", "toJSON", "toLocaleDateString", "toLocaleLowerCase", "toLocaleString",
+            "toLocaleTimeString", "toLocaleUpperCase", "toLowerCase", "toPrecision", "toString", "toTimeString",
+            "toUTCString", "toUpperCase", "trim", "trimLeft", "trimRight", "unshift", "valueOf"];
 
     /**
      * @class phil.Object
@@ -39,23 +52,45 @@
             return obj.constructor.prototype;
         },
 
-        getOwnPropertyNames: function (obj) {
+        /**
+         * Retrieves standard non-enumerable own properties that are present
+         * on the specified object.
+         * @param {object} obj
+         * @return {string[]}
+         */
+        getStandardNonEnumerablePropertyNames: function (obj) {
             var result = [],
-                key;
+                i, propertyName;
 
-            // enumerable properties
-            for (key in obj) {
-                if (hOP.call(obj, key)) {
-                    result.push(key);
+            // going through all known standard property names
+            for (i = 0; i < standardPropertyNames.length; i++) {
+                propertyName = standardPropertyNames[i];
+                if (hOP.call(obj, propertyName) && !iPE.call(obj, propertyName)) {
+                    result.push(propertyName);
                 }
             }
 
-            // non-enumerables that should be enumerable
-            if (hOP.call(obj, 'toString') && !iPE.call(obj, 'toString')) {
-                result.push('toString');
+            return result;
+        },
+
+        getOwnPropertyNames: function (obj) {
+            var enumerablePropertyNames = [],
+                obscurePropertyNames,
+                propertyName;
+
+            // enumerable properties
+            for (propertyName in obj) {
+                if (hOP.call(obj, propertyName)) {
+                    enumerablePropertyNames.push(propertyName);
+                }
             }
 
-            return result;
+            // non-enumerable properties
+            obscurePropertyNames = phil.Object.getStandardNonEnumerablePropertyNames(obj);
+
+            return obscurePropertyNames.length ?
+                enumerablePropertyNames.concat(obscurePropertyNames) :
+                enumerablePropertyNames;
         },
 
         getOwnPropertyDescriptor: function (obj, prop) {
