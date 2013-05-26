@@ -5,8 +5,7 @@
 (function () {
     var hOP = Object.prototype.hasOwnProperty,
         iPE = Object.prototype.propertyIsEnumerable,
-        isPrototypeOf = Object.prototype.isPrototypeOf,
-        self;
+        isPrototypeOf = Object.prototype.isPrototypeOf;
 
     /**
      * @class phil.Object
@@ -144,35 +143,33 @@
         }
     };
 
-    self = phil.Object;
-
     if (phil.hasCircularPrototypes()) {
-        Object.prototype.isPrototypeOf = self.isPrototypeOf;
+        Object.prototype.isPrototypeOf = phil.Object.isPrototypeOf;
     }
 
     if (typeof Object.getPrototypeOf !== 'function') {
         Object.getPrototypeOf = phil.hasProto() ?
-            self.getProto :
-            self.getConstructorPrototype;
+            phil.Object.getProto :
+            phil.Object.getConstructorPrototype;
     }
 
     if (typeof Object.getOwnPropertyNames !== 'function') {
-        Object.getOwnPropertyNames = self.getOwnPropertyNames;
+        Object.getOwnPropertyNames = phil.Object.getOwnPropertyNames;
     }
 
     if (typeof Object.keys !== 'function') {
-        Object.keys = self.getOwnPropertyNames;
+        Object.keys = phil.Object.getOwnPropertyNames;
     }
 
     if (!phil.hasGetOwnPropertyDescriptor()) {
-        Object.getOwnPropertyDescriptor = self.getOwnPropertyDescriptor;
+        Object.getOwnPropertyDescriptor = phil.Object.getOwnPropertyDescriptor;
     }
 
     if (!phil.hasDefineProperty()) {
-        Object.defineProperty = self.defineProperty;
+        Object.defineProperty = phil.Object.defineProperty;
     }
 
     if (typeof Object.create !== 'function') {
-        Object.create = self.create;
+        Object.create = phil.Object.create;
     }
 }());
