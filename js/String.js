@@ -3,10 +3,12 @@
  */
 /*global phil */
 (function () {
-    var substr = String.prototype.substr,
-        self;
+    var substr = String.prototype.substr;
 
-    self = phil.polyfill = {
+    /**
+     * @class phil.String
+     */
+    phil.String = {
         /**
          *
          * @param {number} start
@@ -25,6 +27,6 @@
     };
 
     if (!phil.hasNegativeSubstr()) {
-        String.prototype.substr = self.substr;
+        String.prototype.substr = phil.String.substr;
     }
 }());

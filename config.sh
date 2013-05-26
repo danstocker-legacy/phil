@@ -11,5 +11,5 @@ js/features.js
 js/Object.js
 js/Array.js
 js/Function.js
-js/polyfill.js
+js/String.js
 "
