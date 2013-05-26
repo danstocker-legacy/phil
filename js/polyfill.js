@@ -7,6 +7,7 @@
         iPE = Object.prototype.propertyIsEnumerable,
         isPrototypeOf = Object.prototype.isPrototypeOf,
         substr = String.prototype.substr,
+        sort = Array.prototype.sort,
         self;
 
     self = phil.polyfill = {
@@ -175,6 +176,19 @@
                 }
             }
             return -1;
+        },
+
+        /**
+         *
+         * @param {function} comparator
+         * @return {Array}
+         */
+        arraySort: function (comparator) {
+            if (typeof comparator !== 'undefined') {
+                return sort.call(this, comparator);
+            } else {
+                return sort.call(this);
+            }
         }
     };
 
@@ -218,5 +232,9 @@
 
     if (typeof Array.prototype.indexOf !== 'function') {
         Array.prototype.indexOf = self.arrayIndexOf;
+    }
+
+    if (!phil.canArraySortTakeUndefined()) {
+        Array.prototype.sort = self.arraySort;
     }
 }());
