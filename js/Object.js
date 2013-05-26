@@ -8,6 +8,9 @@
         isPrototypeOf = Object.prototype.isPrototypeOf,
         self;
 
+    /**
+     * @class phil.Object
+     */
     phil.Object = {
         isPrototypeOf: function (obj) {
             if (this === obj) {
@@ -18,10 +21,21 @@
             }
         },
 
+        /**
+         * Retrieves non-standard __proto__
+         * @param obj
+         * @return {*}
+         */
         getProto: function (obj) {
             return obj.__proto__;
         },
 
+        /**
+         * Retrieves object prototype from constructor.
+         * Assumes that constructor property is set on object.
+         * @param {object} obj
+         * @return {object}
+         */
         getConstructorPrototype: function (obj) {
             return obj.constructor.prototype;
         },
@@ -50,7 +64,7 @@
                 return undefined;
             }
 
-            // basic properties
+            // default property attributes
             var result = {
                     writable    : true,
                     enumerable  : true,
@@ -59,6 +73,7 @@
                 getter,
                 setter;
 
+            // looking up whether there is any getter / setter functionality
             if (phil.hasLookupGetterSetter()) {
                 getter = obj.__lookupGetter__(prop);
                 setter = obj.__lookupSetter__(prop);
@@ -73,7 +88,7 @@
                     result.set = setter;
                 }
             } else {
-                // applying value
+                // applying as value
                 result.value = obj[prop];
             }
 
