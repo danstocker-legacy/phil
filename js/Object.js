@@ -2,6 +2,7 @@
  * ECMAScript 3 (JavaScript 1.5) compatibility layer.
  */
 /*global phil */
+/*jshint proto:true */
 (function () {
     var hOP = Object.prototype.hasOwnProperty,
         iPE = Object.prototype.propertyIsEnumerable,

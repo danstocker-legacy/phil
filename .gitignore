@@ -1,6 +1,5 @@
-/lib/
 /.idea/
-/targets.sh
+/node_modules/
 /out/
-/build*.sh
+/targets.json
 /*.tgz

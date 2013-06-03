@@ -1,4 +1,5 @@
 /*global phil */
+/*jshint proto:true */
 (function () {
     /**
      * Determines whether direct access to prototype object is implemented
