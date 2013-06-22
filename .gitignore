@@ -1,5 +1,5 @@
 /.idea/
 /node_modules/
 /out/
-/targets.json
+/phil.js
 /*.tgz

@@ -1,10 +1,11 @@
 {
-    "name"        : "phil",
-    "version"     : "0.2.1",
-    "description" : "ES5 polyfill",
-    "keywords"    : ["polyfill", "shim", "compatibility", "built-ins"],
-    "author"      : "Dan Stocker <dan@kwaia.com>",
-    "repository"  : {
+    "name"           : "phil",
+    "version"        : "0.2.2",
+    "description"    : "ES5 polyfill",
+    "keywords"       : ["polyfill", "shim", "compatibility", "built-ins"],
+    "author"         : "Dan Stocker <dan@kwaia.com>",
+    "copyright"      : "Copyright (c) 2013 Dan Stocker",
+    "repository"     : {
         "type": "git",
         "url" : "git@github.com:danstocker/phil.git"
     },
@@ -15,9 +16,10 @@
         "grunt-contrib-jshint": "~0.5.4",
         "grunt-yui-compressor": "~0.3.0",
         "grunt-contrib-copy"  : "~0.4.1",
-        "common-gruntfile"    : "git://github.com/danstocker/common-gruntfile.git",
+        "grunt-jsdoc"         : "~0.3.3",
+        "common-gruntfile"    : "git://github.com/danstocker/common-gruntfile.git#0.1.2",
         "QUnitAdapter"        : "https://dl.dropboxusercontent.com/u/9258903/packages/QUnitAdapter-0.1.0.tgz"
     },
-    "files"       : ["out/phil.js"],
-    "main"        : "out/phil.js"
+    "files"          : ["phil.js"],
+    "main"           : "phil.js"
 }
