@@ -13,9 +13,9 @@
          * @param {*} elem
          * @return {Number}
          */
-        indexOf: function (elem) {
+        indexOf: function (elem, from) {
             var i;
-            for (i = 0; i < this.length; i++) {
+            for (i = from || 0; i < this.length; i++) {
                 if (this[i] === elem) {
                     return i;
                 }

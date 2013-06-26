@@ -9,6 +9,10 @@
     test("Array index by element", function () {
         equal(phil.Array.indexOf.call(['foo', 'bar', 3], 'bar'), 1, "Hit");
         equal(phil.Array.indexOf.call(['foo', 'bar', 3], 'baz'), -1, "No hit");
+
+        equal(phil.Array.indexOf.call(['foo', 'bar', 3, 'foo'], 'foo'), 0, "Hit");
+        equal(phil.Array.indexOf.call(['foo', 'bar', 3, 'foo'], 'foo', 1), 3, "Hit");
+        equal(phil.Array.indexOf.call(['foo', 'bar', 3, 'foo'], 'foo', 4), -1, "No hit");
     });
 
     test("Array sort", function () {
